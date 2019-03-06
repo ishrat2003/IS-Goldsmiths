@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  is_goldsmiths_tf_jupyter:
+    build:
+      context: .
+      dockerfile: ./docker/tf_jupyter/Dockerfile
+    container_name: is_goldsmiths_tf_jupyter
+    hostname: is_goldsmiths_tf_jupyter
+    image: is_goldsmiths_tf_jupyter:0.1
+    environment:
+      - PASSWORD=test
+    ports:
+      - 8888:8888
+      - 6006:6006
+    volumes:
+      - ./notebooks:/notebooks/
+    networks:
+      - is_goldsmiths_network
+
+  is_goldsmiths_nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    container_name: is_goldsmiths_nginx
+    image: is_goldsmiths_nginx:0.1
+    environment:
+      - SITE=jupyter
+    ports:
+      - "8080:80"
+    links:
+      - is_goldsmiths_tf_jupyter
+    networks:
+      - is_goldsmiths_network
+
+networks:
+  is_goldsmiths_network:
+    driver: bridge
+
