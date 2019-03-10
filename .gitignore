@@ -1,2 +1,4 @@
 .ipynb_checkpoints
 .DS_Store
+notebooks/Papers/paper2/datasets/bhot/raw/*
+notebooks/Papers/paper2/datasets/brexit/*
