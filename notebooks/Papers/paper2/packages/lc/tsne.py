@@ -12,6 +12,11 @@ class TSNELC(Base):
 		self.numberOfComponents = 2
 		self.numberOfIterations = 250
 		self.learnedEmbeddings = None
+		self.markedWords = []
+		return
+
+	def setMarkedWords(self, words):
+		self.markedWords = words
 		return
 
 
@@ -60,6 +65,12 @@ class TSNELC(Base):
 			method='exact')
 		self.learnedEmbeddings = tsne.fit_transform(vectors)
 		return
+
+
+	def isTopic(self, word, topWordScores):
+		if word in self.markedWords:
+			return True
+		return False
 
 
 	def _getX(self, word):

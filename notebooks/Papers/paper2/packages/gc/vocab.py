@@ -64,20 +64,28 @@ class Vocab(Store):
 
 
     def __loadVocab(self):
-        vocabData = self._loadNumpy('vocab.npz')
-        if vocabData is not None:
-            for word in vocabData:
-                stemmedWord = word['stemmed_word']
-                self.vocab[stemmedWord] = word
+        vocabFiles = self._loadNumpy('vocab.npz')
+
+        if vocabFiles is not None:
+            for fileRef in vocabFiles:
+                vocabData = vocabFiles[fileRef]
+                if vocabData is not None:
+                    for word in vocabData:
+                        stemmedWord = word['stemmed_word']
+                        self.vocab[stemmedWord] = word
+        
         return
 
 
     def __loadSentences(self):
-        sentenceData = self._loadNumpy('sentences.npz')
+        sentenceFiles = self._loadNumpy('sentences.npz')
         self.processedSentences = []
-        if sentenceData is not None:
-            for sentence in sentenceData:
-                self.processedSentences.append(sentence)
+        if sentenceFiles is not None:
+            for fileRef in sentenceFiles:
+                sentenceData = sentenceFiles[fileRef]
+                if sentenceData is not None:
+                    for sentence in sentenceData:
+                        self.processedSentences.append(sentence)
         return
 
 

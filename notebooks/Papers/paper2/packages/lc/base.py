@@ -23,6 +23,7 @@ class Base():
 		self.sentences = []
 		self.punctuationTypes = ['.', '?', '!']
 		self.maxCount = 1
+		self.maxScore = 0
 		self.filterRate = filterRate
 		self.topScorePercentage = filterRate
 		self.filteredWords = {}
@@ -142,7 +143,7 @@ class Base():
 		if not len(self.wordInfo):
 			return None
 
-		topWordScores = self.maxCount * self.topScorePercentage
+		topWordScores = self.maxScore * self.topScorePercentage
 
 		points = []
 		for word in self.filteredWords:
@@ -152,13 +153,18 @@ class Base():
 			point['color'] = 'green'
 			point['label'] = self.filteredWords[word]['pure_word']
 			point['type'] = self.filteredWords[word]['type']
-			if self.filteredWords[word]['count'] >= topWordScores:
+
+			if self.isTopic(word, topWordScores):
 				point['color'] = 'red'
 				self.contributors.append(word)
 
 			points.append(point)
 
 		return points
+
+
+	def isTopic(self, word, topWordScores):
+		return (self.filteredWords[word]['score'] >= topWordScores)
 
 	def _getX(self, word):
 		return 0

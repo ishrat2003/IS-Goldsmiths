@@ -23,6 +23,8 @@ class Peripheral(K3S):
 			self.filteredWords[word]['score'] = self.__getScore(self.filteredWords[word])
 			self.filteredWords[word]['theta'] = currentTheta
 			currentTheta += unitTheta
+			if self.filteredWords[word]['score'] > self.maxScore:
+				self.maxScore = self.filteredWords[word]['score']
 			
 		return
 

@@ -167,10 +167,12 @@ class Word2Vec(LDA):
                 self.resetIndex()
                 for step in range(nBatches):
                     x_batch, y_batch = self.nextBatchSkipGram()
-                    #print(x_batch)
-                    #print('----------')
-                    #print(y_batch)
-                    #print('----------')
+                    '''
+                    print(x_batch)
+                    print('----------')
+                    print(y_batch)
+                    print('----------')
+                    '''
                     y_batch = self.to2d(y_batch, unit_axis=1)
                     feedDict = {inputs: x_batch, outputs: y_batch}
                     _, batchLoss = tfs.run([optimizer, loss], feed_dict=feedDict)
@@ -273,14 +275,21 @@ class Word2Vec(LDA):
 
 
     def __loadW2VTSNE(self):
+        #embeddingFromFile = self._loadNumpy('w2v-tsne.npz')
         embeddingFromFile = self._loadNumpy('w2v-tsne.npz')
 
         self.learnedEmbeddings = None
         if embeddingFromFile is None:
             return
 
+        self.learnedEmbeddings = embeddingFromFile
+        '''
         for fileRef in embeddingFromFile:
+            print(fileRef)
+            print(embeddingFromFile)
             self.learnedEmbeddings =  embeddingFromFile[fileRef]
+        '''
         return
+
 
 

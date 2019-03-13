@@ -130,13 +130,16 @@ class LDA(Vocab):
 
 
 	def __loadLdaTopics(self):
-		topicsFromFile = self._loadNumpy('lda.npz')
+		topicsFromFiles = self._loadNumpy('lda.npz')
 		self.topics = {}
 
-		if topicsFromFile is not None:
-			for word in topicsFromFile:
-				if 'topic' in word.keys():
-					self.topics[word['word']] = word['topic']
+		if topicsFromFiles is not None:
+			for fileRef in topicsFromFiles:
+				topicsFromFile = topicsFromFiles[fileRef]
+				if topicsFromFile is not None:
+					for word in topicsFromFile:
+						if 'topic' in word.keys():
+							self.topics[word['word']] = word['topic']
 
 		return
 

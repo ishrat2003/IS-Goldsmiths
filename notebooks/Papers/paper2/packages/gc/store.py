@@ -21,12 +21,7 @@ class Store():
         if not file.exists():
             return None
 
-        dataFromFile = np.load(filePath)
-
-        for fileRef in dataFromFile:
-            return dataFromFile[fileRef]
-
-        return None
+        return np.load(filePath)
 
 
     def _saveNumpy(self, fileName, data):
