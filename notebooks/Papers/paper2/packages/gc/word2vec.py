@@ -9,6 +9,7 @@ class Word2Vec(LDA):
 
 
     def __init__(self, dataProcessor):
+        self.learnedEmbeddings = None
         super().__init__(dataProcessor)
         self.indexSentence = {
             'train': 0,
@@ -25,7 +26,6 @@ class Word2Vec(LDA):
         self.perplexity = 10
         self.numberOfTopics = 10
         self.iteration = 250
-        self.learnedEmbeddings = None
         return
     
 
@@ -204,12 +204,18 @@ class Word2Vec(LDA):
 
 
     def trainTSNE(self, embedding):
+        iteration = 250 # For T-SNE minimum iteration is 250
+        if self.iteration >= 250 :
+            iteration = self.iteration
+
+
         tsne = skTSNE(perplexity=self.perplexity, 
             n_components=self.numberOfTopics, 
             init='pca', 
             n_iter=self.iteration, 
             method='exact')
         self.learnedEmbeddings = tsne.fit_transform(embedding)
+        
         self.__saveW2VTSNE()
         print('Trained for TSNE')
         return
@@ -270,25 +276,25 @@ class Word2Vec(LDA):
 
 
     def __saveW2VTSNE(self):
+        #print("in save ------")
+        #print(self.learnedEmbeddings);
         self._saveNumpy('w2v-tsne.npz', self.learnedEmbeddings)
         return
 
 
     def __loadW2VTSNE(self):
-        #embeddingFromFile = self._loadNumpy('w2v-tsne.npz')
-        embeddingFromFile = self._loadNumpy('w2v-tsne.npz')
-
+        embeddingFromFiles = self._loadNumpy('w2v-tsne.npz')
+        
         self.learnedEmbeddings = None
-        if embeddingFromFile is None:
+        if embeddingFromFiles is None:
             return
 
-        self.learnedEmbeddings = embeddingFromFile
-        '''
-        for fileRef in embeddingFromFile:
-            print(fileRef)
-            print(embeddingFromFile)
-            self.learnedEmbeddings =  embeddingFromFile[fileRef]
-        '''
+        for fileRef in embeddingFromFiles:
+            if self.learnedEmbeddings is None:
+                self.learnedEmbeddings = embeddingFromFiles[fileRef]
+            else:
+                self.learnedEmbeddings += embeddingFromFiles[fileRef]
+
         return
 
 

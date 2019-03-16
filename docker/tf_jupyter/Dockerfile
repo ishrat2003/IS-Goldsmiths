@@ -43,6 +43,8 @@ RUN apt-get update
 
 RUN pip3 install -U wheel
 RUN pip3 install tornado==5.1.1
+RUN pip3 install ipywidgets
+RUN jupyter nbextension enable --py widgetsnbextension
 
 # --- DO NOT EDIT OR DELETE BETWEEN THE LINES --- #
 # These lines will be edited automatically by parameterized_docker_build.sh. #
