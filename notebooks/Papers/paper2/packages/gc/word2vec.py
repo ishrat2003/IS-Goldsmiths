@@ -212,7 +212,7 @@ class Word2Vec(LDA):
         tsne = skTSNE(perplexity=self.perplexity, 
             n_components=self.numberOfTopics, 
             init='pca', 
-            n_iter=self.iteration, 
+            n_iter=iteration, 
             method='exact')
         self.learnedEmbeddings = tsne.fit_transform(embedding)
         
