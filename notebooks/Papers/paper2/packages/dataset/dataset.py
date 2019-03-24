@@ -15,6 +15,7 @@ class Dataset():
             'test': None
         }
         self.fileIndex = 0
+        self.excludedFilenames = []
 
         if path and name:
             self.setDatasetPath(os.path.join(self.path, self.name))
@@ -23,6 +24,11 @@ class Dataset():
         else:
             print('Failed to identify dataset path and name')
 
+        return
+
+
+    def setExcludedFilenames(self, excludedFilenames):
+        self.excludedFilenames = excludedFilenames
         return
 
 
@@ -40,6 +46,11 @@ class Dataset():
         return self.datasetPath
 
 
+    def print(self):
+        print("Todo .....")
+        return
+
+
     def loadFilePaths(self, trainSetProportion = 0.8, validationSetProportion = 0.1, testSetProportion = 0.1):
         if not self.datasetPath:
             return
@@ -48,7 +59,7 @@ class Dataset():
         textFiles = []
         for root, dirs, files in os.walk(self.datasetPath):
             for file in files:
-                if file.endswith(".txt"):
+                if file.endswith(".txt") and (file not in self.excludedFilenames):
                     fileName = file[:-4]
                     textFiles.append(fileName)
                     totalFiles += 1

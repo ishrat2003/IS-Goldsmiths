@@ -11,6 +11,7 @@ class Brexit(Dataset):
         super().__init__(path, 'brexit')
         return
 
+
     def read(self, fileName):
         identifier = fileName[:-8]
         #print('identifier:', identifier)
@@ -23,11 +24,25 @@ class Brexit(Dataset):
         otherDetails = fileHandler.read()
         if otherDetails:
                 otherDetails = json.loads(otherDetails)
+                details['url'] = otherDetails['Url']
+                details['categories'] = otherDetails['Categories']
                 if 'Title' in otherDetails.keys():
+                    details['title'] = self._clean(otherDetails['Title'])
                     details['text'] = self._clean(otherDetails['Title']) + '. ' + details['text']
 
                 if 'Date' in otherDetails.keys():
+                    details['date'] = otherDetails['Date']
                     details['timestamp'] = int(datetime.datetime.strptime(otherDetails['Date'], '%Y-%m-%d').strftime("%s"))
 
         return details
+
+
+    def print(self):
+        self.resetFileIndex()
+        details = self.getNextTextBlockDetails('all')
+        while details:
+            print('"' + details['title'] + '","' + details['date'] + '","' + details['categories'] + '","' + details['url'] + '"')
+            details = self.getNextTextBlockDetails()
+        
+        return
 
