@@ -118,11 +118,12 @@ class Base():
 
 	def displayPlot(self, fileName):
 		#rcParams['figure.figsize']=15,10
+		mpl.rcParams.update({'font.size': 15})
 		points = self.getPoints()
 		if not points:
 			print('No points to display')
 			return
-
+	
 		plt.figure(figsize=(20, 20))  # in inches(x, y, s=None, c=None, marker=None, cmap=None, norm=None, vmin=None, vmax=None, alpha=None, linewidths=None, verts=None, edgecolors=None, *, data=None, **kwargs)[source]
 		for point in points:
 			plt.scatter(point['x'], point['y'], c = point['color'])

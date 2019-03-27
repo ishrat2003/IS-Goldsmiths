@@ -17,6 +17,7 @@ class Plotter():
 
     def displayPlot(self):
         #rcParams['figure.figsize']=15,10
+        mpl.rcParams.update({'font.size': 22})
         points = self.getPoints()
         if not points:
             print('No points to display')

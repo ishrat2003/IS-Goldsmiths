@@ -79,7 +79,7 @@ scatter
         console.log('y:' + yVal);
         return y(yVal); 
     } )
-    .attr("r", 1)
+    .attr("r", 3)
     .style("fill", function (d) { 
         return color(d[colorCat]); 
     })
@@ -102,7 +102,7 @@ scatter
         return y(yVal); 
       } )
     .attr("font_family", "sans-serif")  // Font type
-    .attr("font-size", "5px")  // Font size
+    .attr("font-size", "10px")  // Font size
     .attr("fill", "black");   // Font color
 
   // Set the zoom and Pan features: how much you can zoom, on which part, and what to do when there is a zoom
@@ -171,7 +171,7 @@ legend.selectAll(".legend")
             return "translate(0," + (10 + i * 10) + ")"; 
         })
         .append("circle")
-            .attr("r", 2)
+            .attr("r", 3)
             .attr("cx",  function(d, i) { 
                 return width / 2;
             })
