@@ -18,6 +18,7 @@ class Cleaner(Base):
             cleanTexts.append(self.cleanText(text, removeContractions, removeStopwords))
 
         path = self.outputFilePath + fieldName + '.csv'
+
         dataFrame = pd.DataFrame(cleanTexts)
         dataFrame.to_csv(path, sep='\t', encoding='utf-8', index=False, header=False)
         print("%s cleaning finished." % (fieldName))
