@@ -21,7 +21,7 @@ class Markov(object):
 		self.order = order
 
 	def loadDictionary(self, dictFile, fileEncoding="utf-8"):
-		print("Loaded dictionary file:"+dictFile)
+		print("Loaded dictionary file: " + dictFile)
 		with open(dictFile, 'r', encoding=fileEncoding) as inf:
 			self.table = eval(inf.read())
 

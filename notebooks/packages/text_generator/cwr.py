@@ -2,11 +2,13 @@ from .markov import Markov
 from nltk.stem.porter import PorterStemmer
 import re
 import sys
+from os import path
 
 class CWR(Markov):
 
 
     def __init__(self, order=2, dictFile="", maxWordInSentence=20, fileEncoding="utf-8"):
+        print('order: ', order)
         super().__init__(order, dictFile, maxWordInSentence, fileEncoding)
         self.contributors = []
         self.stemmer = PorterStemmer()
@@ -18,7 +20,7 @@ class CWR(Markov):
         self.contributors = contributors
         return
 
-    def getTitles(self):
+    def getTitles(self, total = 5):
         starters = self.__getStarters()
         self.titles = []
 
@@ -29,7 +31,7 @@ class CWR(Markov):
  
         #print(self.titles)
 		
-        return self.titles[0:3]
+        return self.titles[0:total]
 
 
     def __buildTitle(self, state, title = []):
