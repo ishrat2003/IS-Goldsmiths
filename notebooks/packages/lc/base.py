@@ -11,7 +11,7 @@ from matplotlib.pylab import rcParams
 class Base():
 
 
-	def __init__(self, text, filterRate = 0):
+	def __init__(self, text = None, filterRate = 0):
 		self.rawText = text
 		self.text = self.__clean(text)
 		self.stopWords = utility.Utility.getStopWords()
@@ -49,6 +49,10 @@ class Base():
 		self.topScorePercentage = topScorePercentage
 		return
 
+	def setText(self):
+		self.rawText = text
+		self.text = self.__clean(text)
+		return
 
 	def getRawText(self):
 		return self.rawText
@@ -87,7 +91,11 @@ class Base():
 		return self.filteredWords
 
 
-	def loadSentences(self, text):
+	def loadSentences(self, text = None):
+		if not text:
+			return
+		text = self.__clean(text)
+
 		words = self.__getWords(text, True)
 		self.wordInfo = {}
 		self.sentences = []
@@ -102,7 +110,6 @@ class Base():
 				currentSentence = []
 			if len(word) < self.minWordSize:
 				continue
-			
 			wordKey = self._addWordInfo(word, type)
 			if wordKey and (wordKey not in currentSentence):
 				currentSentence.append(wordKey)
@@ -176,7 +183,7 @@ class Base():
 
 
 	def _addWordInfo(self, word, type):
-		if not word or (type not in self.allowedPOSTypes):
+		if not word or (self.allowedPOSTypes and (type not in self.allowedPOSTypes)):
 			return None
 
 		localWordInfo = {}
@@ -208,10 +215,12 @@ class Base():
 
 
 	def __cleanWord(self, word):
-		return re.sub('[^a-zA-Z0-9]+', '', word)
+		return re.sub('[^a-zA-Z0-9\-]+', '', word)
 
 
-	def __clean(self, text):
+	def __clean(self, text = None):
+		if not text:
+			return
 		text = re.sub('<.+?>', '. ', text)
 		text = re.sub('&.+?;', '', text)
 		text = re.sub('[\']{1}', '', text)

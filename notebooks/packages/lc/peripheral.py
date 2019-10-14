@@ -3,11 +3,11 @@ import numpy
 
 class Peripheral(K3S):
 
-
-	def __init__(self, text, filterRate = 0.2):
+	def __init__(self, text = None, filterRate = 0.2):
 		super().__init__(text, filterRate)
 		self.maxScore = 0
-		self.loadSentences(text)
+		if text:
+			self.loadSentences(text)
 		return
 
 

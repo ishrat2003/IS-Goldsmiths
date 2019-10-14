@@ -5,7 +5,6 @@ import random
 import json
 import pprint
 
-
 class Markov(object):
 	def __init__(self, order=2, dictFile="", maxWordInSentence=20, fileEncoding="utf-8"):
 		self.table = {}

@@ -111,12 +111,5 @@ class CWR(Markov):
         return finalStarters
 
 
-    def __clean(self, text):
-        text = re.sub('<.+?>', '. ', text)
-        text = re.sub('&.+?;', '', text)
-        text = re.sub('[\']{1}', '', text)
-        text = re.sub('[^a-zA-Z0-9\s_\-\?:;\.,!\(\)\"]+', ' ', text)
-        text = re.sub('\s+', ' ', text)
-        text = re.sub('(\.\s*)+', '. ', text)
-        return text
+
 

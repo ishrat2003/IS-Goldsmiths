@@ -7,11 +7,11 @@ from . import Base
 class K3S(Base):
 
 
-	def __init__(self, text, filterRate = 0.2):
+	def __init__(self, text = None, filterRate = 0.2):
 		super().__init__(text, filterRate)
 		self.occuranceContributingFactor = 1
-		self.positionContributingFactor = 10
-		self.properNounContributingFactor = 100
+		self.positionContributingFactor = 1
+		self.properNounContributingFactor = 1
 		self.maxPosition = 0
 		self.properNouns = []
 		self.lastNounProperNoun = False
@@ -40,7 +40,7 @@ class K3S(Base):
 		if type not in ['NNP', 'NNPS']:
 			self.lastNounProperNoun = False
 
-		if not word or (type not in self.allowedPOSTypes):
+		if not word or (self.allowedPOSTypes and (type not in self.allowedPOSTypes)):
 			return None
 
 		wordKey = super()._addWordInfo(word, type)
