@@ -7,16 +7,16 @@ class Tokenizer(Core):
         super().__init__(loggingLevel)
         return
 
-    def processTokens(self, text):
-        if not text:
+    def processTokens(self, text = None):
+        if not text or not len(text):
             return
 
+        self.tokens = word_tokenize(text)
+        self.tags = pos_tag(self.tokens)
+        self.updateMaxLength(self.tags)
+ 
         self.beforeProcessingTokens()
-        tokens = word_tokenize(text)
-        tags = pos_tag(tokens)
-        self.updateMaxLength(tags)
-
-        for (word, type) in tags:
+        for (word, type) in self.tags:
             self.updateTypes(type)
             self.updateTerminals(word, type)
             self.processToken(word, type)
@@ -62,6 +62,8 @@ class Tokenizer(Core):
         self.maxLength = 0
         self.types = []
         self.terminals = {}
+        self.tokens = []
+        self.tags = []
         return
 
     def __clean(self, text):

@@ -60,6 +60,22 @@ RUN pip3 install ipython jupyter jupyter-tensorboard --upgrade
 RUN jupyter tensorboard enable --system
 # RUN ln -s /usr/bin/python3 /usr/bin/python#
 
+# Install OpenJDK-8
+RUN apt-get update && \
+    apt-get install -y openjdk-8-jdk && \
+    apt-get install -y ant && \
+    apt-get clean;
+
+# Fix certificate issues
+RUN apt-get update && \
+    apt-get install ca-certificates-java && \
+    apt-get clean && \
+    update-ca-certificates -f;
+
+# Setup JAVA_HOME -- useful for docker commandline
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+RUN export JAVA_HOME
+
 # Set up our notebook config.
 COPY ./docker/tf_jupyter/jupyter_notebook_config.py /root/.jupyter/
 
